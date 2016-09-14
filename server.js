@@ -6,10 +6,13 @@ const actCtrl = require('./server-sql/controllers/act-controller');
 const uaCtrl = require('./server-sql/controllers/ua-controller');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const cookieController = require('./server-sql/controllers/cookieController')
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -24,7 +27,7 @@ app.get('/user/:username/:password', userCtrl.show, userCtrl.conn); // to log in
 app.get('/userinfo/:username/', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
 
 app.get('/test', userCtrl.index); // full list of users, not needed for front-end
-app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, function(req, res) {console.log(req.body)})
+app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, function(req, res) {res.end()})
 app.post('/user/add', userCtrl.add, (req, res) => { res.end(); });// to add a single user
 
 app.get('/activities', actCtrl.index); // full list of activities, for user to choose from
