@@ -3,17 +3,23 @@
 <div class="loginpage">
   <div class="loginFormArea">
     <h2>Login</h2>
+    <!-- Input Facebook Button--> 
+    <!---                     -->
+    <div id="fb-root"></div>
+    <a href='https://www.facebook.com/dialog/oauth?client_id=178491662559104&redirect_uri=http://localhost:3000/fblogin'>Login with Facebook</a>
+<!--     <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div> -->
     <p ng-model='error'>{{error}}</p>
-    <form ng-submit='login()'>
+
+    <!-- <form ng-submit='login()'>
       <input type="text" ng-model='username' placeholder='username'></input>
       <input type='password' ng-model='password' placeholder='password'></input>
       <button type='submit'>Submit</button>
     </form>
     <h2>Create a new account</h2>
-    <form nf-submit='newUser()'>
+    <form ng-submit='newUser()'>
       <input type="text" ng-model='NewUsername' placeholder='username'></input>
       <input type='password' ng-model='NewPassword' placeholder='password'></input>
       <button type='submit'>Submit</button>
-    </form>
+    </form> -->
   </div>
 </div>

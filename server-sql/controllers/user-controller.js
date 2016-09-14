@@ -1,6 +1,8 @@
 "use strict";
 const database = require('../models/database');
-
+const request = require('request')
+const FB = require('fb')
+const Config = require('./config.json')
 const sequelize = database.sequelize;
 const User = database.User;
 
@@ -11,7 +13,8 @@ function index(req, res) {
 }
 
 function add(req, res, next) { // create a new user record
-  User.create(req.body[0], err => {
+  console.log(req.body);
+  User.create(req.body, err => {
     if (err) console.error(err);
   });
   next();
@@ -56,4 +59,41 @@ function profile(req, res, next) {
   });
 }
 
-module.exports = { index, add, show, conn, profile };
+function getToken(req, res, next) {
+  const redirect = 'http://localhost:3000/fblogin'
+  const code = req.query.code;
+  const url = 'https://graph.facebook.com/v2.3/oauth/access_token?client_id='+Config.appID+'&redirect_uri='+redirect+'&client_secret='+Config.secret+'&code='+code
+
+  request(url, function(err, res, body) {
+    var fbObj = JSON.parse(body);
+    req.body.access_token = fbObj.access_token;
+    next();
+  })
+
+}
+
+function getClientId(req, res, next) {
+  const token = req.body.access_token;
+  const url = 'https://graph.facebook.com/debug_token?input_token='+token+'&access_token='+Config.appID+'|'+Config.secret;
+
+  request(url, function(err, res, body) {
+    var data = JSON.parse(body)
+    req.body.user_id = data.data.user_id;
+    next();
+  });
+
+}
+
+module.exports = { index, add, show, conn, profile, getToken, getClientId };
+
+
+
+
+
+
+
+
+
+
+
+
