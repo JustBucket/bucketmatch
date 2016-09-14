@@ -1,10 +1,11 @@
 'use strict';
 
 const Sequelize = require('sequelize');
+const DB = require('./../controllers/config.json')
 
 // if there is a password, make it the third parameter after the username,
 // otherwise, make it null and include a comma after it
-const sequelize = new Sequelize('khkuzdlr', 'khkuzdlr', '6VOqe_dUg_bkeiYemwkeC2NMYpsFW4Rb', {
+const sequelize = new Sequelize(DB.DBname, DB.DBname, DB.DBpass, {
   host: 'tantor.db.elephantsql.com',
   dialect: 'postgres',
 });
