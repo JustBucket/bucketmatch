@@ -1,14 +1,11 @@
 {
-  "name": "bucketmatch",
+  "name": "justbucket",
   "version": "1.0.0",
-  "description": "scratch project",
+  "description": "iteration project built on top of bucketmatch",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sneakykate/bucketmatch.git"
   },
   "author": "",
   "license": "ISC",
