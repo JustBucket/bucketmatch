@@ -15,8 +15,6 @@ const User = sequelize.define('users', {
   profilepic: Sequelize.STRING,
   bio: Sequelize.STRING,
   password: Sequelize.STRING,
-}, {
-  timestamp: false,
 });
 
 const Activity = sequelize.define('activities', {
