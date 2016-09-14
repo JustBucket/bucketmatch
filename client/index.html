@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>BucketMatch</title>
+
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
   <script type="text/javascript" src="./controllers/activitiesController.js"></script>
@@ -15,13 +17,32 @@
   <script type="text/javascript" src="./factories/userFactory.js"></script>
   <script type="text/javascript" src="./factories/clickedFactory.js"></script>
   <script type="text/javascript" src="./app.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
   <link rel="stylesheet" href="./stylesheets/style.css">
   <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 </head>
+
 <body ng-app='myApp'>
   <!--Notice the link with the octothorpe first-->
   <!--Our templates are rendered here-->
-  <div class="container" ng-view></div>
+  <header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#profile">Just Bucket</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#profile">Profile</a></li>
+          <li><a href="#graph">Graph</a></li>
+          <li><a href="#/">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="jumbotron" ng-view></div>
+  </div>
 </body>
+
 </html>
