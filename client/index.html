@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>BucketMatch</title>
-
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
   <script type="text/javascript" src="./controllers/activitiesController.js"></script>
@@ -17,6 +17,7 @@
   <script type="text/javascript" src="./factories/userFactory.js"></script>
   <script type="text/javascript" src="./factories/clickedFactory.js"></script>
   <script type="text/javascript" src="./app.js"></script>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
   <link rel="stylesheet" href="./stylesheets/style.css">
@@ -24,6 +25,14 @@
 </head>
 
 <body ng-app='myApp'>
+    <!-- <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId=178491662559104";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script> -->
   <!--Notice the link with the octothorpe first-->
   <!--Our templates are rendered here-->
   <header>
