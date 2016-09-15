@@ -26,12 +26,15 @@ function usercontroller($scope, $location, $http, EventFactory, UserFactory) {
         UserFactory.error('Sorry incorrect username or password.  Please try again')
         $location.path('/');
       }
+      console.log('data', data.data);
+      /*
       $scope.image = data.data.user.profilepic;
       $scope.activities = data.data.activities;
       $scope.completed = '';
       $scope.description = data.data.user.bio;
       $scope.userid= data.data.user._id;
       $scope.username = data.data.user.username;
+      */
     });
   }
   loadPage();

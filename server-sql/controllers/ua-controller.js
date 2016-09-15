@@ -12,7 +12,7 @@ function index(req, res) { // displays all activities associated with users? for
 }
 
 function addNew(req, res, next) { // associates a user and a activity
-  if (req.actKey) {
+  /*if (req.actKey) {
     // pull database _id from cookies
     console.log(req.cookies._id);
     const updateObj = { "activityid": req.actKey, "userid": req.cookies._id};
@@ -23,6 +23,7 @@ function addNew(req, res, next) { // associates a user and a activity
   UserActivity.create(req.body.data[0], err => {
     if (err) console.error(err);
   });
+  */
   next();
 }
 

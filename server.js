@@ -26,15 +26,15 @@ app.get('/', (req, res) => {
 app.get('/user', userCtrl.getUser, userCtrl.conn); // to log in and get current user info
 app.get('/userinfo', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
 
-app.get('/test', userCtrl.index); // full list of users, not needed for front-end
-app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, userCtrl.getUser, function(req, res) {
+app.get('/test', userCtrl.index); // full list of users, not needed for front-end - add in getUser back later
+app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, function(req, res) {
   res.redirect('/#/profile');
 });
 
 app.post('/user/add', userCtrl.add, (req, res) => { res.end(); });// to add a single user
 
 app.get('/activities', actCtrl.index); // full list of activities, for user to choose from
-app.post('/activity/add', actCtrl.add, uaCtrl.addNew, (req, res) => { res.end(); });// to add a new activity
+//app.post('/activity/add', actCtrl.add, uaCtrl.addNew, (req, res) => { res.end(); });// to add a new activity
 
 app.get('/useractivities', uaCtrl.index, (req, res) => { res.end(); });// to view all joins between users & activities
 app.post('/useractivity/add', uaCtrl.add, (req, res) => { res.end(); });// to add an existing activity TO a User
