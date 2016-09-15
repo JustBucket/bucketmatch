@@ -30,11 +30,12 @@ app.get('/test', userCtrl.index); // full list of users, not needed for front-en
 app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, function(req, res) {
   res.redirect('/#/profile');
 });
+app.get('/logout', function(req, res) {console.log(res)})
 
 app.post('/user/add', userCtrl.add, (req, res) => { res.end(); });// to add a single user
 
 app.get('/activities', actCtrl.index); // full list of activities, for user to choose from
-//app.post('/activity/add', actCtrl.add, uaCtrl.addNew, (req, res) => { res.end(); });// to add a new activity
+app.post('/activity/add', actCtrl.add, (req, res) => { res.end(); });// to add a new activity 
 
 app.get('/useractivities', uaCtrl.index, (req, res) => { res.end(); });// to view all joins between users & activities
 app.post('/useractivity/add', uaCtrl.add, (req, res) => { res.end(); });// to add an existing activity TO a User

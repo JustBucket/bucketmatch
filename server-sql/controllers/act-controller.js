@@ -1,8 +1,9 @@
 const database = require('../models/database');
 const UserActivity = require('./ua-controller.js');
+const Activity = database.Activity;
 
 const sequelize = database.sequelize;
-const Activity = database.Activity;
+const FBUser = database.FBUser;
 
 function index(req, res) { // retruns a list of all activities
   Activity.findAll({}).then((acts) => {
@@ -16,27 +17,17 @@ function add(req, res, next) { // adds a new activity to the database
 
   Activity.create(newActivityObj)
     .then((resp) => {
-      console.log(resp);
-      req.actKey = resp.dataValues._id;
+      console.log('we are inside creating', resp);
+      
+      FBUser.addActivity(resp.dataValues, {status: true}).then(function() {
+        console.log('IM INSIDE ADDING ACTVITY')
+        next();
+      })
     })
     .catch((err) => {
       if (err) console.error(err);
     });
-  next();
 }
-/*
-function add(req, res, next) { // adds a new activity to the database
-  Activity.create(req.body.data.event)
-    .then((resp) => {
-      console.log(resp);
-      req.actKey = resp.dataValues._id;
-    })
-    .catch((err) => {
-      if (err) console.error(err);
-    });
-  next();
-}
-*/
 
 function show(req, res, next) { // finds a single activity
   Activity.find(req.body[0], err => {
