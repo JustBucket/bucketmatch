@@ -46,7 +46,7 @@ app.get('/useractivity/findbyact/:actname', uaCtrl.findbyact, (req, res) => { re
 // returns data for graph
 app.get('/graph', userCtrl.getAllUsers, actCtrl.getAllActivities, uaCtrl.getAllUserActivities, (req, res) => { 
   var output = {users: req.allUsers, buckets: req.allActivities, joins: req.allUserActivities};  
-  console.log('output', output);
+  //console.log('output', output);
   res.json(output); 
 });
 
