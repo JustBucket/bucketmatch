@@ -63,18 +63,18 @@ function getUser(req, res, next) { // to get the logged in user's profile'
 }
 
 function conn(req, res) {
-  /*
-  User.sequelize.query('SELECT "actname" from "activities" join "useractivities" on ' +
+  
+  console.log('req.user', req.user);
+
+  FBUser.sequelize.query('SELECT "actname" from "activities" join "useractivities" on ' +
     '("useractivities"."activityId" = "activities"."_id") join "users" on ' +
-    '("users"."_id" = "useractivities"."userId") where "username" =\'' + req.params.username + '\'')
+    '("users"."_id" = "useractivities"."userId") where "users"."_id" =\'' + req.user._id + '\'')
     .then((data) => {
       const output = { activities: data[0], user: req.user };
+      console.log('output', output);
       res.json(output);
     });
-  */
-  console.log('req.user', req.user);
-  var output = { user: req.user };
-  res.json(output);
+  
 }
 
 function profile(req, res, next) {
