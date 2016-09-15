@@ -11,6 +11,13 @@ function index(req, res) { // retruns a list of all activities
   });
 }
 
+function getAllActivities(req, res, next) { // retruns a list of all activities
+  Activity.findAll({}).then((acts) => {
+    req.allActivities = acts;
+    next();
+  });
+}
+
 function add(req, res, next) { // adds a new activity to the database
   //console.log("in act-controller add(): req.body", req.body);
   var newActivityObj = {actname: req.body.actname, actdesc: req.body.actdesc};
@@ -49,4 +56,4 @@ function show(req, res, next) { // finds a single activity
   next();
 }
 
-module.exports = { index, add, show };
+module.exports = { index, add, show, getAllActivities };

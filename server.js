@@ -43,6 +43,13 @@ app.post('/useractivity/add', uaCtrl.add, (req, res) => { res.end(); });// to ad
 
 app.get('/useractivity/findbyact/:actname', uaCtrl.findbyact, (req, res) => { res.end(); });// to find all users by activity
 
+// returns data for graph
+app.get('/graph', userCtrl.getAllUsers, actCtrl.getAllActivities, uaCtrl.getAllUserActivities, (req, res) => { 
+  var output = {users: req.allUsers, buckets: req.allActivities, joins: req.allUserActivities};  
+  console.log('output', output);
+  res.json(output); 
+});
+
 app.use(express.static(path.join(__dirname, '/client/')));
 
 app.listen(3000, () => {
