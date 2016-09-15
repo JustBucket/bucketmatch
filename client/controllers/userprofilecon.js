@@ -9,7 +9,7 @@ function usercontroller($scope, $location, $http, EventFactory, UserFactory) {
   $scope.description = '';
   $scope.userid = '';
   $scope.username = '';
-
+  
   $scope.activityView = function () {
     console.log("inside usercontroler", this.activity.actname)
     EventFactory.updateEvent(this.activity.actname);
@@ -27,14 +27,19 @@ function usercontroller($scope, $location, $http, EventFactory, UserFactory) {
         $location.path('/');
       }
       console.log('data', data.data);
-      /*
-      $scope.image = data.data.user.profilepic;
-      $scope.activities = data.data.activities;
-      $scope.completed = '';
-      $scope.description = data.data.user.bio;
-      $scope.userid= data.data.user._id;
-      $scope.username = data.data.user.username;
-      */
+      
+      var userObj = data.data.user;
+
+      $scope.image = userObj.profilepic;
+      //$scope.activities = data.data.activities;
+      //$scope.completed = '';
+      if(userObj.bio !== null) {
+        $scope.description = userObj.bio;
+      } 
+
+      $scope.userid = userObj._id;
+      $scope.username = userObj.first_name;
+      
     });
   }
   loadPage();
