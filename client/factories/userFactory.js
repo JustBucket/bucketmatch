@@ -9,7 +9,7 @@ function userFactory($http) {
   let error = '';
 
   userData.fetch = function () {
-    return $http.get('http://localhost:3000/user/' + user + '/' + password);
+    return $http.get('/user'); // request user profile information
   };
 
   userData.updateUser = function (person, pass) {

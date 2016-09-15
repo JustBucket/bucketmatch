@@ -1,7 +1,7 @@
 "use strict";
 const database = require('../models/database');
-const request = require('request')
-const Config = require('./config.json')
+const request = require('request');
+const Config = require('./config.json');
 const sequelize = database.sequelize;
 const FBUser = database.FBUser;
 
@@ -29,17 +29,23 @@ function getUser(req, res, next) { // to get the logged in user's profile'
   })
   .then((user) => {
     if (user) {
+      console.log('FBUser find OK', user);
       req.user = user;
+      next();
     } else {
       request(url, function(err, res, body) {
-      var data = JSON.parse(body)
-      
-      FBUser.create({fb_id: data.id, first_name: data.first_name, last_name: data.last_name, profilepic:data.picture.data.url, bio: data.bio}, err => {
-        if(err) console.log(err);
-      });
+        var data = JSON.parse(body);
+        
+        console.log('Call from FB', body, data);
+
+        FBUser.create({fb_id: data.id, first_name: data.first_name, last_name: data.last_name, profilepic:data.picture.data.url, bio: data.bio}, err => {
+          if(err) console.log(err);
+        })
+        .then((newUser) => {
+          req.user = user;
+          next();
+        });
     });
-      
-    next();
   }
 });
 
@@ -57,6 +63,7 @@ function getUser(req, res, next) { // to get the logged in user's profile'
 }
 
 function conn(req, res) {
+  /*
   User.sequelize.query('SELECT "actname" from "activities" join "useractivities" on ' +
     '("useractivities"."activityId" = "activities"."_id") join "users" on ' +
     '("users"."_id" = "useractivities"."userId") where "username" =\'' + req.params.username + '\'')
@@ -64,6 +71,10 @@ function conn(req, res) {
       const output = { activities: data[0], user: req.user };
       res.json(output);
     });
+  */
+  console.log('req.user', req.user);
+  var output = { user: req.user };
+  res.json(output);
 }
 
 function profile(req, res, next) {
