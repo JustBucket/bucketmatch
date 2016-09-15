@@ -12,6 +12,14 @@ function index(req, res) { // displays all activities associated with users? for
   });
 }
 
+function getAllUserActivities(req, res, next) { // displays all activities associated with users? for devs not production
+  UserActivity.findAll({}).then((uas) => {
+    req.allUserActivities = uas;
+    next();
+  });
+}
+
+
 function addNew(req, res, next) { // associates a user and a activity
   /*if (req.actKey) {
     // pull database _id from cookies
@@ -87,4 +95,4 @@ function findbyact(req, res, next) { // finds all users by activity
   });
 }
 
-module.exports = { index, add, findbyact };
+module.exports = { index, add, findbyact, getAllUserActivities };
