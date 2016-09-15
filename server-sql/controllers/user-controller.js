@@ -11,6 +11,13 @@ function index(req, res) {
   });
 }
 
+function getAllUsers(req, res, next) {
+  FBUser.findAll({}).then((users) => {
+    req.allUsers = users;
+    next();
+  });
+}
+
 function add(req, res, next) { // create a new user record
   console.log(req.body);
   User.create(req.body, err => {
@@ -120,7 +127,7 @@ function getClientId(req, res, next) {
 
 // }
 
-module.exports = { index, add, getUser, conn, profile, getToken, getClientId };
+module.exports = { index, add, getUser, conn, profile, getToken, getClientId, getAllUsers };
 
 
 
