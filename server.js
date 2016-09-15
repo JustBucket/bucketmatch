@@ -23,13 +23,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/index.html'));
 });
 
-app.get('/user/:username/:password', userCtrl.show, userCtrl.conn); // to log in and get current user info
-app.get('/userinfo/:username/', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
+app.get('/user', userCtrl.getUser, userCtrl.conn); // to log in and get current user info
+app.get('/userinfo', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
 
 app.get('/test', userCtrl.index); // full list of users, not needed for front-end
-app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, function(req, res) {
+app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, userCtrl.getUser, function(req, res) {
   res.redirect('/#/profile');
 });
+
 app.post('/user/add', userCtrl.add, (req, res) => { res.end(); });// to add a single user
 
 app.get('/activities', actCtrl.index); // full list of activities, for user to choose from

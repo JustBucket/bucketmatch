@@ -3,7 +3,7 @@ const database = require('../models/database');
 const request = require('request');
 const Config = require('./config.json');
 const sequelize = database.sequelize;
-const User = database.User;
+const FBUser = database.FBUser;
 
 function index(req, res) {
   User.findAll({}).then((users) => {
@@ -19,18 +19,41 @@ function add(req, res, next) { // create a new user record
   next();
 }
 
-function show(req, res, next) { // to get the logged in user's profile'
-  User.findOne({ where: { username: req.params.username, password: req.params.password } }, err => {
-    if (err) console.error(err);
+function getUser(req, res, next) { // to get the logged in user's profile'
+  const id =  req.cookies.userID;
+  const token = req.cookies.token;
+  const url = "https://graph.facebook.com/v2.7/me?fields=id%2Cpicture%2Cfirst_name%2Clast_name%2Cbio&access_token="+token;
+
+  FBUser.findOne({ where: { fb_id: id}}, err => {
+    if(err) console.log(err);
   })
   .then((user) => {
-    if (user === null) {
-      res.status(500).send(null);
-    } else {
+    if (user) {
       req.user = user;
-    }
+    } else {
+      request(url, function(err, res, body) {
+      var data = JSON.parse(body)
+      
+      FBUser.create({fb_id: data.id, first_name: data.first_name, last_name: data.last_name, profilepic:data.picture.data.url, bio: data.bio}, err => {
+        if(err) console.log(err);
+      });
+    });
+      
     next();
-  });
+  }
+});
+
+  // User.findOne({ where: { username: req.params.username, password: req.params.password } }, err => {
+  //   if (err) console.error(err);
+  // })
+  // .then((user) => {
+  //   if (user === null) {
+  //     res.status(500).send(null);
+  //   } else {
+  //     req.user = user;
+  //   }
+  //   next();
+  // });
 }
 
 function conn(req, res) {
@@ -80,10 +103,13 @@ function getClientId(req, res, next) {
     req.body.user_id = data.data.user_id;
     next();
   });
-
 }
 
-module.exports = { index, add, show, conn, profile, getToken, getClientId };
+// function getUserFB(res, res, next) {
+
+// }
+
+module.exports = { index, add, getUser, conn, profile, getToken, getClientId };
 
 
 
