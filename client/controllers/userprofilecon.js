@@ -31,7 +31,7 @@ function usercontroller($scope, $location, $http, EventFactory, UserFactory) {
       var userObj = data.data.user;
 
       $scope.image = userObj.profilepic;
-      //$scope.activities = data.data.activities;
+      $scope.activities = data.data.activities;
       //$scope.completed = '';
       if(userObj.bio !== null) {
         $scope.description = userObj.bio;
