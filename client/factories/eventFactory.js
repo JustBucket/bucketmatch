@@ -28,7 +28,7 @@ function eventFactory($http, $location) {
   obj.addUserToEvent = function (data) {
     data.userId = user;
     const dataArr = [data];
-    return $http.post('http://localhost:3000/useractivity/add', JSON.stringify({ data: dataArr }));
+    return $http.post('http://localhost:3000/useractivity/add', JSON.stringify({ data: dataArr })); // just send over arg data activityId? 
   };
   return obj;
 }

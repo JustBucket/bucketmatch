@@ -4,6 +4,7 @@ const database = require('../models/database');
 const sequelize = database.sequelize;
 const UserActivity = database.UserActivity;
 const Activity = database.Activity;
+const FBUser = database.FBUser;
 
 function index(req, res) { // displays all activities associated with users? for devs not production
   UserActivity.findAll({}).then((uas) => {
@@ -28,15 +29,39 @@ function addNew(req, res, next) { // associates a user and a activity
 }
 
 function add(req, res, next) { // associates a user and a activity
-  if (req.actKey) {
+  // console.log req.body
+  if (req.actKey) { // true if just added custom activity
     const updateObj = { "activityid": req.actKey, "userid": req.body.data[0].userid }
     UserActivity.create(req.body.data[0], err => {
       if (err) console.error(err);
+      next();
     });
   }
-  UserActivity.create(req.body.data[0], err => {
-    if (err) console.error(err);
-  });
+  // extract cookies.userID which is really fb_id, find corresponding _id, then create new UserActivity record
+  var fb_id = req.cookies.userID;
+  if(fb_id) {
+    FBUser.findOne({ where: { fb_id: fb_id}}, err => {
+      if(err) {
+        console.log(err);
+        res.status(500).end();
+      }
+    }).then((user) => {
+      // set the correct userId
+      req.body.data[0].userId = user._id;
+      // set default for status
+       req.body.data[0].status = true;
+      console.log('before ua create', req.body.data[0]);
+      
+      UserActivity.create(req.body.data[0], err => {
+        if(err) {
+          console.log(err);
+          res.status(500).end();
+        }
+        next();
+      }); 
+    });
+  }
+  
   next();
 }
 
