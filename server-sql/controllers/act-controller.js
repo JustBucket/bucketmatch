@@ -17,12 +17,25 @@ function add(req, res, next) { // adds a new activity to the database
 
   Activity.create(newActivityObj)
     .then((resp) => {
-      console.log('we are inside creating', resp);
+
+      // set key
+      req.actKey = resp.dataValues._id;
+      next();
+
+      // var userActivityObj = {activityId: resp.dataValues._id, userId: , status: true};
+
+      // UserActivity.create(userActivityObj, err => {
+      //   if(err) {
+      //     console.log(err);
+      //     res.status(500).end();
+      //   }
+      //   next();
+      // }); 
       
-      FBUser.addActivity(resp.dataValues, {status: true}).then(function() {
-        console.log('IM INSIDE ADDING ACTVITY')
-        next();
-      })
+      // FBUser.addActivity(resp.dataValues, {status: true}).then(function() {
+      //   console.log('IM INSIDE ADDING ACTVITY')
+      //   next();
+      // })
     })
     .catch((err) => {
       if (err) console.error(err);

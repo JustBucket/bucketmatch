@@ -31,16 +31,27 @@ function addNew(req, res, next) { // associates a user and a activity
 function add(req, res, next) { // associates a user and a activity
   // console.log req.body
   if (req.actKey) { // true if just added custom activity
-    const updateObj = { "activityid": req.actKey, "userid": req.body.data[0].userid }
-    UserActivity.create(req.body.data[0], err => {
-      if (err) console.error(err);
-      next();
-    });
-  }
+    var fb_iden = req.cookies.userID;
+    FBUser.findOne({ where: {fb_id: fb_iden} }, err => {
+      if(err) {
+        console.log(err);
+        res.status(500).end();
+      }
+    }).then((person) => {
+    const updateObj = { "activityId": req.actKey, "userId": person._id };
+    console.log('BEFORE I GO INTO CREATEEEEEE FOR USERACT')
+
+    UserActivity.create(updateObj).then(function(result) {
+        console.log('after UserActivity create');
+        next();
+      });
+    })
+  } else {
+
   // extract cookies.userID which is really fb_id, find corresponding _id, then create new UserActivity record
   var fb_id = req.cookies.userID;
   if(fb_id) {
-    FBUser.findOne({ where: { fb_id: fb_id}}, err => {
+    FBUser.findOne({ where: { fb_id: fb_id} }, err => {
       if(err) {
         console.log(err);
         res.status(500).end();
@@ -62,7 +73,7 @@ function add(req, res, next) { // associates a user and a activity
     });
   }
   
-  next();
+}
 }
 
 function findbyact(req, res, next) { // finds all users by activity

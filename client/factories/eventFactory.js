@@ -18,17 +18,17 @@ function eventFactory($http, $location) {
   };
 
   obj.fetchMatches = function () {
-    return $http.get('http://localhost:3000/useractivity/findbyact/' + event);
+    return $http.get('/useractivity/findbyact/' + event);
   };
 
   obj.fetchActivities = function () {
-    return $http.get('http://localhost:3000/activities');
+    return $http.get('/activities');
   };
 
   obj.addUserToEvent = function (data) {
     data.userId = user;
     const dataArr = [data];
-    return $http.post('http://localhost:3000/useractivity/add', JSON.stringify({ data: dataArr })); // just send over arg data activityId? 
+    return $http.post('/useractivity/add', JSON.stringify({ data: dataArr })); // just send over arg data activityId? 
   };
   return obj;
 }

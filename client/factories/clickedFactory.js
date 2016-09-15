@@ -12,7 +12,7 @@ function ClickedFactory($location, $http) {
   };
 
   userInfo.getInfo = function () {
-    return $http.get('http://localhost:3000/userinfo/' + clicked);
+    return $http.get('/userinfo/' + clicked);
   };
   return userInfo;
 }

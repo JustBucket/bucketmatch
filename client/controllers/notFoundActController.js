@@ -21,6 +21,7 @@ function notFoundActController($scope, $location, $http) {
     $http.post(postUrl, JSON.stringify(newActivityObj))
       .then(function(result) {
         console.log(result, 'result')
+        $location.path('/profile');
       });
 
   };
