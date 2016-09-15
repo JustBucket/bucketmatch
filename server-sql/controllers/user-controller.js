@@ -1,8 +1,7 @@
 "use strict";
 const database = require('../models/database');
-const request = require('request')
-const FB = require('fb')
-const Config = require('./config.json')
+const request = require('request');
+const Config = require('./config.json');
 const sequelize = database.sequelize;
 const User = database.User;
 
