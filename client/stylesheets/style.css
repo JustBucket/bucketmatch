@@ -137,3 +137,48 @@ header {
   background-size: cover;
 
 }
+
+
+svg {
+    font: 12px 'Titillium Web', sans-serif;
+}
+
+text {
+    pointer-events: none;
+}
+
+rect {
+  stroke: #666;
+  stroke-width: 1px;
+}
+
+rect.highlight {
+    stroke: #222;
+    stroke-width: 2px;
+}
+
+.buckets circle {
+    fill: #DDD;
+    stroke: #444;
+}
+
+.buckets circle.highlight {
+    stroke: #222;
+    stroke-width: 4px;
+}
+
+.path {
+  fill: none;
+}
+
+#graph {
+  background-color: #aaa;
+  border-radius: 25%;
+}
+
+.title {
+  text-align: center;
+}
+
+
+
