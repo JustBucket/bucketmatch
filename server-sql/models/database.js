@@ -10,12 +10,13 @@ const sequelize = new Sequelize(DB.DBname, DB.DBname, DB.DBpass, {
   dialect: 'postgres',
 });
 
-const User = sequelize.define('users', {
+const FBUser = sequelize.define('users', {
   _id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  username: Sequelize.STRING,
+  fb_id: Sequelize.STRING,
+  first_name: Sequelize.STRING,
+  last_name: Sequelize.STRING,
   profilepic: Sequelize.STRING,
   bio: Sequelize.STRING,
-  password: Sequelize.STRING,
 });
 
 const Activity = sequelize.define('activities', {
@@ -29,15 +30,15 @@ const UserActivity = sequelize.define('useractivities', {
   status: Sequelize.BOOLEAN, // if open, true, if completed false
 });
 
-Activity.belongsToMany(User, { through: 'useractivities' });
-User.belongsToMany(Activity, { through: 'useractivities' });
+Activity.belongsToMany(FBUser, { through: 'useractivities' });
+FBUser.belongsToMany(Activity, { through: 'useractivities' });
 
 // Sync all models that aren't already in the database
 sequelize.sync()
 // // Force sync all models
 // sequelize.sync({force: true})
 // // Drop all tables -- ran once 9/9 2:48pm
-// sequelize.drop()
+//sequelize.drop()
 // emit handling:
 .then(() => {
   // woot woot
@@ -45,6 +46,6 @@ sequelize.sync()
   console.log(error);
 });
 
-module.exports = { sequelize, User, Activity, UserActivity }
+module.exports = { sequelize, FBUser, Activity, UserActivity }
 
 
