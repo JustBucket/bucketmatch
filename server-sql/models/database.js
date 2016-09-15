@@ -21,7 +21,7 @@ const FBUser = sequelize.define('users', {
 
 const Activity = sequelize.define('activities', {
   _id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  actname: Sequelize.STRING,
+  actname: { type:Sequelize.STRING, unique: true},
   actdesc: Sequelize.STRING,
 });
 
@@ -36,7 +36,7 @@ FBUser.belongsToMany(Activity, { through: 'useractivities' });
 // Sync all models that aren't already in the database
 sequelize.sync()
 // // Force sync all models
-// sequelize.sync({force: true})
+//sequelize.sync({force: true})
 // // Drop all tables -- ran once 9/9 2:48pm
 //sequelize.drop()
 // emit handling:

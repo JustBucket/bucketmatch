@@ -17,11 +17,11 @@ function notFoundActController($scope, $location, $http) {
     var newActivityObj = {actname: activityName, actdesc: activityDesc};
 
     // TODO: move this over to a separate factory or service
-    // var postUrl = '/activity/add';
-    // $http.post(postUrl, JSON.stringify(newActivityObj))
-    //   .then(function(result) {
-
-    //   });
+    var postUrl = '/activity/add';
+    $http.post(postUrl, JSON.stringify(newActivityObj))
+      .then(function(result) {
+        console.log(result, 'result')
+      });
 
   };
 }
