@@ -3,14 +3,6 @@ angular
   .factory('GraphFactory', graphFactory)
 
 function graphFactory($http) {
-  // const fetch = { getData };
-  // function getData() {
-  //   $http.get('/graph');
-  // }
-
-
-
-
 
 
 
@@ -321,5 +313,5 @@ function graphFactory($http) {
   for (let i = 0; i < mockDB.join.length; i++) {
     mockDB.join[i].bucketID = Math.floor(Math.random() * mockDB.buckets.length);
   }
-  return { fetch: $http.get('/graph') };
+  return { fetch: $http.get('/graph'), mockDB };
 }
