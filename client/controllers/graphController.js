@@ -4,7 +4,6 @@ angular
 
 function GraphController($scope, GraphFactory) {
   GraphFactory.fetch.then(result => {
-
     // collects the data from the result
     let data = [];
     const users = result.data.users;
@@ -40,7 +39,7 @@ function GraphController($scope, GraphFactory) {
       // creates the current user sets their name to the first value
       // in their data array and their paths to empty
       // then adds the user into the names array
-      const curUser = { id: 'user' + names.length, name: user[0], paths: [] };
+      const curUser = { id: `user${names.length}`, name: user[0], paths: [] };
       curUser.relations = [curUser.id];
       names.push(curUser);
 
@@ -53,16 +52,16 @@ function GraphController($scope, GraphFactory) {
         if (bucket === undefined) {
           bucket = {
             name: bucketItem,
-            id: 'bucket' + bucketID,
+            id: `bucket${bucketID}`,
             paths: [],
-            relations: ['bucket' + bucketID],
+            relations: [`bucket${bucketID}`],
           };
           bucketID++;
           buckets.set(bucketItem, bucket);
         }
 
         // create the path and add it to the array
-        const path = { id: 'path' + curUser.id + '-' + bucket.id, names: curUser, buckets: bucket };
+        const path = { id: `path${curUser.id}-${bucket.id}`, names: curUser, buckets: bucket };
         paths.push(path);
 
         // connecting bucket Item to user
@@ -122,7 +121,7 @@ function GraphController($scope, GraphFactory) {
     // to set the correct x value
     // diameter / 3.5 signifies the height which coincides
     // with the distance from the center of the circle
-    data.buckets = data.buckets.map(function (bucketItem, index) {
+    data.buckets = data.buckets.map((bucketItem, index) => {
       bucketItem.x = scaleBucketX(index);
       bucketItem.y = diameter / Math.PI;
       return bucketItem;
@@ -191,12 +190,12 @@ function GraphController($scope, GraphFactory) {
       .attr('width', diameter)
       .attr('height', diameter)
       .append('g')
-      .attr('transform', 'translate(' + diameter / 2 + ',' + diameter / 2 + ')');
+      .attr('transform', `translate(${diameter / 2}, ${diameter / 2})`);
 
     // actually appending the paths to all the svg g containers
     // using the diagonal created earlier to map the route for each path
     // sets the stroke color to the color of that users id
-    const path = svg.append('g').attr('class', 'paths').selectAll('.path')
+    svg.append('g').attr('class', 'paths').selectAll('.path')
       .data(data.paths)
       .enter()
       .append('path')
@@ -217,7 +216,7 @@ function GraphController($scope, GraphFactory) {
       .enter()
       .append('g')
       .attr('class', 'buckets')
-      .attr('transform', (el) => 'rotate(' + (el.x - 90) + ')translate(' + el.y + ')')
+      .attr('transform', (el) => `rotate(${el.x - 90})translate(${el.y})`)
       .on('mouseover', mouseover)
       .on('mouseout', mouseout);
 
@@ -232,7 +231,7 @@ function GraphController($scope, GraphFactory) {
     // then transforming it to be pushed away from the bucket node circles
     // and roating the text 180 degrees if it on the left side so it is rigth side up
     bucketListNode.append('text')
-      .attr('id', (el) => el.id + '-txt')
+      .attr('id', (el) => `${el.id}-txt`)
       .attr('dy', '.31em')
       .attr('text-anchor', (el) => el.x < 180 ? 'start' : 'end')
       .attr('transform', (el) => el.x < 180 ? 'translate(10)' : 'rotate(180)translate(-10)')
@@ -246,7 +245,7 @@ function GraphController($scope, GraphFactory) {
       .data(data.names)
       .enter()
       .append('g')
-      .attr('transform', (el) => 'translate(' + el.x + ',' + el.y + ')')
+      .attr('transform', (el) => `translate(${el.x}, ${el.y})`)
       .on('mouseover', mouseover)
       .on('mouseout', mouseout);
 
@@ -269,9 +268,9 @@ function GraphController($scope, GraphFactory) {
     // and inverts the color and applies those inverted colors
     // to the text so the text is easily visible for each rect
     nameNode.append('text')
-      .attr('id', (el) => el.id + '-txt')
+      .attr('id', (el) => `${el.id}-txt`)
       .attr('text-anchor', 'middle')
-      .attr('transform', 'translate(' + (rectWidth / 2) + ', ' + (rectHeight * 0.85) + ')')
+      .attr('transform', `translate(${(rectWidth / 2)}, ${(rectHeight * 0.85)})`)
       .attr('fill', (el) => {
         const userID = Number(el.id.replace(/\D+/g, ''));
         const userColor = colors[userID];
@@ -281,7 +280,7 @@ function GraphController($scope, GraphFactory) {
           invert[i] = Number(invert[i]);
           invert[i] = 255 - invert[i];
         }
-        const rgbString = 'rgb(' + invert[0] + ', ' + invert[1] + ', ' + invert[2] + ')';
+        const rgbString = `rgb(${invert[0]}, ${invert[1]}, ${invert[2]})`;
         return rgbString;
       })
       .text((el) => el.name);
@@ -298,11 +297,11 @@ function GraphController($scope, GraphFactory) {
       // vice verse
       // updates the path for each relationship also
       for (let i = 0; i < el.relations.length; i++) {
-        d3.select('#' + el.relations[i])
+        d3.select(`#${el.relations[i]}`)
           .classed('highlight', true);
-        d3.select('#' + el.relations[i] + '-txt')
+        d3.select(`#${el.relations[i]}-txt`)
           .attr('font-weight', 'bold');
-        d3.select('#' + el.paths[i])
+        d3.select(`#${el.paths[i]}`)
           .attr('stroke-width', '6px');
       }
     }
@@ -310,11 +309,11 @@ function GraphController($scope, GraphFactory) {
     // when a mouse leaves an element it goes and loops through and reverses the changes made
     function mouseout(el) {
       for (let i = 0; i < el.relations.length; i++) {
-        d3.select('#' + el.relations[i])
+        d3.select(`#${el.relations[i]}`)
           .classed('highlight', false);
-        d3.select('#' + el.relations[i] + '-txt')
+        d3.select(`#${el.relations[i]}-txt`)
           .attr('font-weight', 'normal');
-        d3.select('#' + el.paths[i])
+        d3.select(`#${el.paths[i]}`)
           .attr('stroke-width', pathWidth);
       }
     }
