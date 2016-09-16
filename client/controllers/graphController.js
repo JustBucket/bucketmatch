@@ -3,23 +3,24 @@ angular
   .controller('GraphController', GraphController);
 
 function GraphController($scope, GraphFactory) {
-  const users = GraphFactory.users;
-  const bucketList = GraphFactory.buckets;
-  const joinTable = GraphFactory.join;
-  let data = [];
-  makeGraph();
+  GraphFactory.fetch.then(result => {
 
-  function makeGraph() {
+    // collects the data from the result
+    let data = [];
+    const users = result.data.users;
+    const bucketList = result.data.buckets;
+    const joinTable = result.data.joins;
+
     // parses the Postgres data into the format for the graph
     // [USERNAME, [...bucketListItem]]
     for (let i = 0; i < users.length; i++) {
       const curUser = [];
-      curUser.push(users[i].username);
+      curUser.push(users[i].first_name);
       const usersBuckets = [];
       for (let j = 0; j < joinTable.length; j++) {
-        if (users[i].userID === joinTable[j].userID) {
-          const bucketID = joinTable[j].bucketID;
-          const toPush = bucketList[Number(bucketID)].bucket;
+        if (users[i]._id === joinTable[j].userId) {
+          const bucketID = joinTable[j].activityId - 1;
+          const toPush = bucketList[bucketID].actname;
           usersBuckets.push(toPush);
         }
       }
@@ -317,5 +318,5 @@ function GraphController($scope, GraphFactory) {
           .attr('stroke-width', pathWidth);
       }
     }
-  }
+  });
 }

@@ -3,15 +3,11 @@ angular
   .factory('GraphFactory', graphFactory)
 
 function graphFactory($http) {
-  const data = {};
-  $http.get('/graph').then((req, res) => {
-    data.join = res.body.join;
-    console.log('join data', data.join);
-    data.users = res.body.users;
-    console.log('users data', data.users);
-    data.buckets = res.body.buckets;
-    console.log('buckets data', data.buckets);
-  });
+  // const fetch = { getData };
+  // function getData() {
+  //   $http.get('/graph');
+  // }
+
 
 
 
@@ -325,5 +321,5 @@ function graphFactory($http) {
   for (let i = 0; i < mockDB.join.length; i++) {
     mockDB.join[i].bucketID = Math.floor(Math.random() * mockDB.buckets.length);
   }
-  return mockDB;
+  return { fetch: $http.get('/graph') };
 }
