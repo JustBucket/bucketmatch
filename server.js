@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/user', userCtrl.getUser, userCtrl.conn); // to log in and get current user info
-app.get('/userinfo', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
+app.get('/userinfo/:id', userCtrl.profile, (req, res) => { res.end(); }); // to get a single user's profile with limited info'
 
 app.get('/test', userCtrl.index); // full list of users, not needed for front-end - add in getUser back later
 app.get('/fblogin', userCtrl.getToken, userCtrl.getClientId, cookieController.setCookie, function(req, res) {
@@ -41,7 +41,7 @@ app.get('/useractivities', uaCtrl.index, (req, res) => { res.end(); });// to vie
 app.post('/useractivity/add', uaCtrl.add, (req, res) => { res.end(); });// to add an existing activity TO a User
 // app.put('/useractivity/close', uaCtrl.close, (req, res) => {res.end() }); // to mark activity as done
 
-app.get('/useractivity/findbyact/:actname', uaCtrl.findbyact, (req, res) => { res.end(); });// to find all users by activity
+app.get('/useractivity/findbyact/:actname', uaCtrl.findbyact);// to find all users by activity
 
 // returns data for graph
 app.get('/graph', userCtrl.getAllUsers, actCtrl.getAllActivities, uaCtrl.getAllUserActivities, (req, res) => { 
