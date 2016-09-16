@@ -85,13 +85,14 @@ function add(req, res, next) { // associates a user and a activity
 }
 
 function findbyact(req, res, next) { // finds all users by activity
-  Activity.sequelize.query('SELECT "username" from "users" join "useractivities" on ' +
+  Activity.sequelize.query('SELECT * from "users" join "useractivities" on ' +
   '("useractivities"."userId" = "users"."_id") join "activities" on ("activities"."_id" = ' +
   '"useractivities"."activityId") where "actname" =\'' + req.params.actname + '\'')
   .then((data) => {
     const output = { users: data[0] };
+    console.log('output', output);
     res.json(output);
-    next();
+    //next();
   });
 }
 

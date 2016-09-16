@@ -7,13 +7,16 @@ function MatchController($location, $scope, EventFactory, ClickedFactory) {
   function getOtherUsers() { // get's other user's for clicked event
     EventFactory.fetchMatches()
     .then((res) => {
+      // console.log('fetchMatches', res.data.users);
       $scope.users = res.data.users;
     });
   }
   getOtherUsers();
 
   $scope.GetClickedUser = function () {
-    ClickedFactory.setUser(this.user.username);
+    // console.log('this.user', this.user);
+    ClickedFactory.setUser(this.user);
+    // ClickedFactory.setUser(this.user.username);
   };
 }
 

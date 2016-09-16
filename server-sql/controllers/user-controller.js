@@ -85,14 +85,15 @@ function conn(req, res) {
 }
 
 function profile(req, res, next) {
-  User.findOne({ where: { username: req.params.username } }, err => {
+  //console.log('in profile, id', req.params.id);
+  FBUser.findOne({ where: { fb_id: req.params.id } }, err => {
     if (err) console.error(err);
   })
-  .then((user) => {
-    const userprofile = { "username": user.username, "profilepic": user.profilepic, "bio": user.bio };
+  .then((user) => {  
     if (user === null) {
       res.status(500).send(null);
     } else {
+      const userprofile = { "first_name": user.first_name, "profilepic": user.profilepic, "bio": user.bio };
       res.json(userprofile);
     }
     next();
