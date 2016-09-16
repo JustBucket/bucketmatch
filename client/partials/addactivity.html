@@ -1,10 +1,11 @@
 <div class="actContainer">
+	<h1>Find Your Dream.</h1>
   <!--Enter text to filter activities-->
-    <input type='text' ng-model='filterBy' placeholder='Enter filter word'></input>
+    <input id='filter' type='text' ng-model='filterBy' placeholder='Search for a Dream'></input>
   <!--repeat is list of activity names-->
   <div class="list" ng-repeat="activity in events | filter: filterBy">
     <!--clicking activity adds activity to current user's profile-->
     <p ng-click="addMeToEvent()"> {{activity.actname}}</p> 
   </div>
-  <button ng-click="addNewDream()"> Not Found </button>
+  <button ng-click="addNewDream()"> Create a Dream </button>
 </div>
