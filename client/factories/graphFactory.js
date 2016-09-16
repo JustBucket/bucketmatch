@@ -3,6 +3,17 @@ angular
   .factory('GraphFactory', graphFactory)
 
 function graphFactory($http) {
+  // const fetch = { getData };
+  // function getData() {
+  //   $http.get('/graph');
+  // }
+
+
+
+
+
+
+
   let mockDB = {
     users: [
       { username: 'Will B', userID: '0' },
@@ -310,5 +321,5 @@ function graphFactory($http) {
   for (let i = 0; i < mockDB.join.length; i++) {
     mockDB.join[i].bucketID = Math.floor(Math.random() * mockDB.buckets.length);
   }
-  return mockDB;
+  return { fetch: $http.get('/graph') };
 }
