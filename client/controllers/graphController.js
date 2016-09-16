@@ -5,21 +5,44 @@ angular
 function GraphController($scope, GraphFactory) {
   GraphFactory.fetch.then(result => {
     // collects the data from the result
+    // let data = [];
+    // const users = result.data.users;
+    // const bucketList = result.data.buckets;
+    // const joinTable = result.data.joins;
+
+    // // parses the Postgres data into the format for the graph
+    // // [USERNAME, [...bucketListItem]]
+    // for (let i = 0; i < users.length; i++) {
+    //   const curUser = [];
+    //   curUser.push(users[i].first_name);
+    //   const usersBuckets = [];
+    //   for (let j = 0; j < joinTable.length; j++) {
+    //     if (users[i]._id === joinTable[j].userId) {
+    //       const bucketID = joinTable[j].activityId - 1;
+    //       const toPush = bucketList[bucketID].actname;
+    //       usersBuckets.push(toPush);
+    //     }
+    //   }
+    //   curUser.push(usersBuckets);
+    //   data.push(curUser);
+    // }
+
     let data = [];
-    const users = result.data.users;
-    const bucketList = result.data.buckets;
-    const joinTable = result.data.joins;
+    const users = GraphFactory.mockDB.users;
+    const bucketList = GraphFactory.mockDB.buckets;
+    const joinTable = GraphFactory.mockDB.join;
+    console.log(GraphFactory.mockDB);
 
     // parses the Postgres data into the format for the graph
     // [USERNAME, [...bucketListItem]]
     for (let i = 0; i < users.length; i++) {
       const curUser = [];
-      curUser.push(users[i].first_name);
+      curUser.push(users[i].username);
       const usersBuckets = [];
       for (let j = 0; j < joinTable.length; j++) {
-        if (users[i]._id === joinTable[j].userId) {
-          const bucketID = joinTable[j].activityId - 1;
-          const toPush = bucketList[bucketID].actname;
+        if (users[i].userID === joinTable[j].userID) {
+          const bucketID = joinTable[j].bucketID;
+          const toPush = bucketList[bucketID].bucket;
           usersBuckets.push(toPush);
         }
       }
@@ -186,7 +209,7 @@ function GraphController($scope, GraphFactory) {
     // adding the svg element to the graph id
     // setting the height and width to the diameter of the circle
     // translate the svg so that it is center
-    let svg = d3.select('#graph').append('svg')
+    const svg = d3.select('#graph').append('svg')
       .attr('width', diameter)
       .attr('height', diameter)
       .append('g')
@@ -195,7 +218,7 @@ function GraphController($scope, GraphFactory) {
     // actually appending the paths to all the svg g containers
     // using the diagonal created earlier to map the route for each path
     // sets the stroke color to the color of that users id
-    svg.append('g').attr('class', 'paths').selectAll('.path')
+    const path = svg.append('g').attr('class', 'paths').selectAll('.path')
       .data(data.paths)
       .enter()
       .append('path')
@@ -205,8 +228,21 @@ function GraphController($scope, GraphFactory) {
       .attr('stroke', (el) => {
         const userID = Number(el.names.id.replace(/\D+/g, ''));
         return colors[userID];
-      })
+      });
+
+    // adding an animation to the creation of the paths on the svg
+    // needed to iterate through each path and sets its particular length
+    path.each(function (el) { el.totalLength = this.getTotalLength(); })
+      .attr('stroke-dasharray', (el) => `${el.totalLength} 300`)
+      .attr('stroke-dashoffset', (el) => el.totalLength)
+      .attr('stroke-width', 50)
+      .transition()
+      .ease('bounce')
+      .duration(3000)
+      .attr('stroke-dashoffset', 0)
       .attr('stroke-width', pathWidth);
+
+
 
     // appending each bucketList item to the svg
     // rotates each bucket list item by its x value - 90 to make a circle
@@ -252,7 +288,7 @@ function GraphController($scope, GraphFactory) {
     // appending a rect that will surround the text of each <g>
     // sets the fill color of the rect to the color
     // associated with the users id
-    nameNode.append('rect')
+    const rect = nameNode.append('rect')
       .attr('id', (el) => el.id)
       .attr('width', rectWidth)
       .attr('height', rectHeight)
@@ -267,7 +303,7 @@ function GraphController($scope, GraphFactory) {
     // the fill gets the color of the user
     // and inverts the color and applies those inverted colors
     // to the text so the text is easily visible for each rect
-    nameNode.append('text')
+    const text = nameNode.append('text')
       .attr('id', (el) => `${el.id}-txt`)
       .attr('text-anchor', 'middle')
       .attr('transform', `translate(${(rectWidth / 2)}, ${(rectHeight * 0.85)})`)
@@ -290,8 +326,8 @@ function GraphController($scope, GraphFactory) {
     function mouseover(el) {
       // sorts the paths so the highlisted paths will be in the front
       d3.selectAll('.paths .path').sort((a) => el.paths.indexOf(a.id));
-
-      // loops through the relationships of the mousedover 
+      //console.log(el);
+      // loops through the relationships of the mousedover
       // element and updates the relations style
       // if its a name it finds the buckets associated
       // vice verse
@@ -302,7 +338,11 @@ function GraphController($scope, GraphFactory) {
         d3.select(`#${el.relations[i]}-txt`)
           .attr('font-weight', 'bold');
         d3.select(`#${el.paths[i]}`)
-          .attr('stroke-width', '6px');
+          .attr('stroke-width', pathWidth)
+          .transition()
+          .ease('bounce')
+          .duration(1000)
+          .attr('stroke-width', '10px');
       }
     }
 
@@ -314,6 +354,9 @@ function GraphController($scope, GraphFactory) {
         d3.select(`#${el.relations[i]}-txt`)
           .attr('font-weight', 'normal');
         d3.select(`#${el.paths[i]}`)
+          .transition()
+          .ease('bounce')
+          .duration(1000)
           .attr('stroke-width', pathWidth);
       }
     }
