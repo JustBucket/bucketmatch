@@ -13,25 +13,45 @@ body .navbar .navbar-inner ul.nav>li>a {
 }
 
 body, html {
-  background-color: rgba(35, 35, 50, 1);
+  background-color: white;
   height: 100%
 }
 h1 {
-  font-size:2em;
   font-weight: 600;
+  text-align: center;
+  font-family: 'Yellowtail', cursive;
+  color: white;
+  font-size: 200px;
 }
 h2{
-  font-size: 1.8em;
+  font-size: 3em;
   margin-left: 6px;
+  color: white;
+  font-family: 'Yellowtail', cursive;
 }
+
 h3{
   font-size: 2em;
 }
+
+a {
+  color: white;
+  font-size: 20px;
+}
+
 
 .sitename{
   font-size: 3.2em;
   text-align: center;
   height: 0px;
+}
+
+.jumbotron {
+  background-color: white;
+}
+
+.container {
+  width: 80%;
 }
 
 .loginpage {
@@ -40,17 +60,21 @@ h3{
   background-repeat: no-repeat;
   background-size:100%;  
   /*background-position: -10px -50px;*/
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   min-height: 1000px;
 }
 
+.loginpage img {
+  width: 80%;
+}
+
 .loginFormArea{
-  margin: 80px auto;
+  margin: 200px auto 8px auto;
   padding:30px;
   width: 400px;
   background-color: rgba(80, 80, 100, 0.5);
-  
+  text-align: center;
 }
 
 input, button {
@@ -86,32 +110,28 @@ header {
   width: 72%;
   margin: 60px auto;
   padding: 20px;
-  background-color: rgba(250, 250, 250, 0.9);
+  background-color: white;
+  border: 1px solid black;
   min-height: 500px;
 }
 
-<<<<<<< HEAD
+.actContainer {
+  text-align: center;
+  text-decoration: underline;
+}
+
+
 .actContainer a {
   font-size: 1.4em;
   color: black;
-  text-decoration: none;
 }
 
-=======
-/*.actContainer{
-  background-image: url("http://www.cfau-pd.net/images/adventure-wallpapers/adventure-wallpapers-12.jpg");
-  background-repeat: no-repeat;
-  background-size:100%;  
-  /*background-position: -10px -50px;*/
-  /*width: 80%;
-  margin: 0 auto;
-  min-height: 1000px;*/
 .inspopic{
   background-image: url("https://storyoflifeandadventures.files.wordpress.com/2012/01/peter-pan-in-belize1.jpg")
   background-size: cover;
   height: 20%;
 }
->>>>>>> d548f067ede39113de68f38b035c867810317198
+
 .addDreamButton {
   width: 100px;
   margin: 5px auto;
@@ -141,6 +161,7 @@ header {
 
 svg {
     font: 12px 'Titillium Web', sans-serif;
+    margin: 0 auto;
 }
 
 text {
@@ -172,13 +193,27 @@ rect.highlight {
 }
 
 #graph {
-  background-color: #aaa;
+  background-color: white;
   border-radius: 25%;
+  text-align: center;
 }
 
 .title {
   text-align: center;
 }
 
+#filter {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  border: 1px solid #333;
+}
 
+#createdream {
+  text-align: center;
+}
 
+#submit {
+  background-color: white;
+  border: 1px solid black;
+}
